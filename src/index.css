@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --verde-dark:   #1a5c2a;
+    --verde-mid:    #2e8b57;
+    --verde-light:  #c8e6c9;
+    --limone:       #fef08a;
+    --limone-gold:  #f9a825;
+    --cream:        #fafaf7;
+    --danger:       #c62828;
+    --warn:         #e65100;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--cream);
+    color: #1c1c1c;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-verde-100 p-5;
+  }
+
+  .btn-primary {
+    @apply bg-verde-600 text-white font-medium px-4 py-2 rounded-xl
+           hover:bg-verde-700 active:scale-95 transition-all duration-150
+           flex items-center gap-2 text-sm;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-verde-600 font-medium px-4 py-2 rounded-xl
+           border border-verde-200 hover:bg-verde-50 active:scale-95
+           transition-all duration-150 flex items-center gap-2 text-sm;
+  }
+
+  .btn-danger {
+    @apply bg-red-50 text-red-600 font-medium px-3 py-1.5 rounded-lg
+           hover:bg-red-100 transition-all text-sm;
+  }
+
+  .input {
+    @apply w-full border border-gray-200 rounded-xl px-3 py-2 text-sm
+           focus:outline-none focus:ring-2 focus:ring-verde-400
+           focus:border-transparent bg-white transition-all;
+  }
+
+  .label {
+    @apply block text-xs font-medium text-gray-500 mb-1 uppercase tracking-wide;
+  }
+
+  .table-header {
+    @apply bg-verde-600 text-white text-xs font-semibold uppercase tracking-wider;
+  }
+
+  .table-row {
+    @apply border-b border-gray-50 hover:bg-verde-50 transition-colors;
+  }
+
+  .badge-green  { @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800; }
+  .badge-yellow { @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800; }
+  .badge-red    { @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800; }
+  .badge-gray   { @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600; }
+
+  .kpi-card {
+    @apply card flex flex-col gap-1 min-w-0;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+           text-verde-100 hover:bg-verde-500 hover:text-white
+           transition-all duration-150 cursor-pointer;
+  }
+
+  .sidebar-link.active {
+    @apply bg-limone-300 text-verde-800 font-semibold;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c8e6c9; border-radius: 9999px; }
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.25s ease-out; }
