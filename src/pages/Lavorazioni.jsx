@@ -4,6 +4,7 @@ import { Plus } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import DataTable from '../components/DataTable'
 import Modal from '../components/Modal'
+import ExportBar from '../components/ExportBar'
 import { format } from 'date-fns'
 
 const TIPI = ['Potatura','Irrigazione','Sfalcio erba','Trinciatura','Raccolta',
@@ -59,17 +60,21 @@ export default function Lavorazioni() {
       render: v => v ? `€ ${parseFloat(v).toFixed(2)}` : '—' },
   ]
 
-  const totOre  = rows.reduce((a,r) => a + (parseFloat(r.ore_lavorate)||0), 0)
-  const totCost = rows.reduce((a,r) => a + (parseFloat(r.costo)||0), 0)
+  const totOre  = rows.reduce((a, r) => a + (parseFloat(r.ore_lavorate)||0), 0)
+  const totCost = rows.reduce((a, r) => a + (parseFloat(r.costo)||0), 0)
 
   return (
     <div className="fade-in space-y-5">
       <PageHeader icon="⚙️" title="Registro Lavorazioni"
         subtitle="Tutte le operazioni colturali effettuate nell'agrumeto"
-        actions={<button className="btn-primary" onClick={openNew}><Plus size={16}/>Nuova lavorazione</button>}
+        actions={
+          <>
+            <ExportBar data={rows} columns={columns} title="Registro Lavorazioni" filename="lavorazioni" />
+            <button className="btn-primary" onClick={openNew}><Plus size={16}/>Nuova lavorazione</button>
+          </>
+        }
       />
 
-      {/* Totali */}
       <div className="grid grid-cols-2 gap-3">
         <div className="card bg-verde-50 border-0 text-center">
           <p className="text-xs text-gray-500 uppercase tracking-wide">Ore totali</p>
