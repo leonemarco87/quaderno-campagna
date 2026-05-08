@@ -10,10 +10,18 @@ export function ConfigProvider({ children }) {
   const load = async () => {
     try {
       const rows = await db.getAll('configurazioni', { order: 'ordinamento', asc: true })
-      const grouped = {}
+     const grouped = {}
       rows.forEach(r => {
         if (!grouped[r.categoria]) grouped[r.categoria] = []
         grouped[r.categoria].push({ id: r.id, valore: r.valore, ordinamento: r.ordinamento })
+      })
+      // Ordina ogni categoria alfabeticamente, ma "Altro" sempre in fondo
+      Object.keys(grouped).forEach(cat => {
+        grouped[cat].sort((a, b) => {
+          if (a.valore === 'Altro') return 1
+          if (b.valore === 'Altro') return -1
+          return a.valore.localeCompare(b.valore, 'it')
+        })
       })
       setConfig(grouped)
     } catch(e) {
