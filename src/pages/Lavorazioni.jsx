@@ -7,9 +7,9 @@ import DataTable from '../components/DataTable'
 import Modal from '../components/Modal'
 import { format } from 'date-fns'
 
-const TIPI = ['Potatura','Irrigazione','Sfalcio erba','Trinciatura','Raccolta',
-              'Sistemazione terreno','Manutenzione attrezzature','Concimazione',
-              'Rippatura','Estirpatore','Fresatura','Aratura','Altro']
+const TIPI = ['Aratura','Concimazione','Estirpatore','Fresatura','Irrigazione',
+              'Manutenzione attrezzature','Potatura','Raccolta','Rippatura',
+              'Sfalcio erba','Sistemazione terreno','Trinciatura','Altro']
 
 const empty = { data:'', appezzamento:'', tipo_lavorazione:'', operatore:'',
                 mezzo:'', ore_lavorate:'', carburante_litri:'', costo:'', note:'' }
