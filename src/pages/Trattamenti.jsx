@@ -4,6 +4,7 @@ import { Plus, AlertTriangle } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import DataTable from '../components/DataTable'
 import Modal from '../components/Modal'
+import ExportBar from '../components/ExportBar'
 import { format } from 'date-fns'
 
 const MOTIVAZIONI = ['Crittogame','Insetti','Cocciniglie','Afidi','Mosca dei frutti',
@@ -15,12 +16,12 @@ const empty = { data:'', coltura:'Limone', prodotto:'', principio_attivo:'', dos
                 meteo:'', lotto_prodotto:'', fornitore:'', costo:'', note:'' }
 
 export default function Trattamenti() {
-  const [rows, setRows]     = useState([])
+  const [rows, setRows]       = useState([])
   const [loading, setLoading] = useState(true)
-  const [modal, setModal]   = useState(false)
-  const [form, setForm]     = useState(empty)
-  const [saving, setSaving] = useState(false)
-  const [errors, setErrors] = useState({})
+  const [modal, setModal]     = useState(false)
+  const [form, setForm]       = useState(empty)
+  const [saving, setSaving]   = useState(false)
+  const [errors, setErrors]   = useState({})
 
   const load = () => {
     setLoading(true)
@@ -31,11 +32,11 @@ export default function Trattamenti() {
 
   const validate = () => {
     const e = {}
-    if (!form.data)            e.data = 'Obbligatorio'
-    if (!form.prodotto)        e.prodotto = 'Obbligatorio'
+    if (!form.data)             e.data = 'Obbligatorio'
+    if (!form.prodotto)         e.prodotto = 'Obbligatorio'
     if (!form.principio_attivo) e.principio_attivo = 'Obbligatorio'
-    if (!form.motivazione)     e.motivazione = 'Obbligatorio'
-    if (!form.operatore)       e.operatore = 'Obbligatorio'
+    if (!form.motivazione)      e.motivazione = 'Obbligatorio'
+    if (!form.operatore)        e.operatore = 'Obbligatorio'
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -62,19 +63,19 @@ export default function Trattamenti() {
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
 
   const columns = [
-    { key: 'data',            label: 'Data', width: 100,
+    { key: 'data',             label: 'Data', width: 100,
       render: v => v ? format(new Date(v), 'dd/MM/yyyy') : '—' },
-    { key: 'prodotto',        label: 'Prodotto' },
-    { key: 'principio_attivo',label: 'Principio Attivo' },
-    { key: 'motivazione',     label: 'Motivazione' },
-    { key: 'operatore',       label: 'Operatore' },
-    { key: 'carenza_giorni',  label: 'Carenza', width: 80,
+    { key: 'prodotto',         label: 'Prodotto' },
+    { key: 'principio_attivo', label: 'Principio Attivo' },
+    { key: 'motivazione',      label: 'Motivazione' },
+    { key: 'operatore',        label: 'Operatore' },
+    { key: 'carenza_giorni',   label: 'Carenza', width: 80,
       render: v => v ? `${v} gg` : '—' },
-    { key: 'costo',           label: 'Costo', width: 90,
+    { key: 'costo',            label: 'Costo (€)', width: 90,
       render: v => v ? `€ ${parseFloat(v).toFixed(2)}` : '—' },
   ]
 
-  const totCost = rows.reduce((a,r) => a + (parseFloat(r.costo)||0), 0)
+  const totCost = rows.reduce((a, r) => a + (parseFloat(r.costo)||0), 0)
 
   const F = ({ k, label, type='text', options, required }) => (
     <div>
@@ -95,7 +96,12 @@ export default function Trattamenti() {
     <div className="fade-in space-y-5">
       <PageHeader icon="🌿" title="Registro Trattamenti Fitosanitari"
         subtitle="Registro obbligatorio per legge — campi * obbligatori"
-        actions={<button className="btn-primary" onClick={openNew}><Plus size={16}/>Nuovo trattamento</button>}
+        actions={
+          <>
+            <ExportBar data={rows} columns={columns} title="Registro Trattamenti Fitosanitari" filename="trattamenti" />
+            <button className="btn-primary" onClick={openNew}><Plus size={16}/>Nuovo trattamento</button>
+          </>
+        }
       />
 
       <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 text-sm text-amber-800">
@@ -123,19 +129,19 @@ export default function Trattamenti() {
       {modal && (
         <Modal title={form.id ? 'Modifica Trattamento' : 'Nuovo Trattamento'} onClose={()=>setModal(false)} wide>
           <div className="grid grid-cols-2 gap-3">
-            <F k="data"            label="Data"             type="date"    required />
-            <F k="coltura"         label="Coltura" />
-            <F k="prodotto"        label="Prodotto"                        required />
-            <F k="principio_attivo" label="Principio Attivo"              required />
-            <F k="dose"            label="Dose (kg/L/ha)" />
-            <F k="acqua_litri_ha"  label="Acqua (L/ha)"   type="number" />
-            <F k="motivazione"     label="Motivazione"    options={MOTIVAZIONI} required />
-            <F k="operatore"       label="Operatore"                      required />
-            <F k="carenza_giorni"  label="Carenza (giorni)" type="number" />
-            <F k="meteo"           label="Condizioni meteo" options={METEO} />
-            <F k="lotto_prodotto"  label="Lotto prodotto" />
-            <F k="fornitore"       label="Fornitore" />
-            <F k="costo"           label="Costo (€)"      type="number" />
+            <F k="data"             label="Data"              type="date"           required />
+            <F k="coltura"          label="Coltura" />
+            <F k="prodotto"         label="Prodotto"                                required />
+            <F k="principio_attivo" label="Principio Attivo"                        required />
+            <F k="dose"             label="Dose (kg/L/ha)" />
+            <F k="acqua_litri_ha"   label="Acqua (L/ha)"      type="number" />
+            <F k="motivazione"      label="Motivazione"       options={MOTIVAZIONI} required />
+            <F k="operatore"        label="Operatore"                               required />
+            <F k="carenza_giorni"   label="Carenza (giorni)"  type="number" />
+            <F k="meteo"            label="Condizioni meteo"  options={METEO} />
+            <F k="lotto_prodotto"   label="Lotto prodotto" />
+            <F k="fornitore"        label="Fornitore" />
+            <F k="costo"            label="Costo (€)"         type="number" />
             <div className="col-span-2"><F k="note" label="Note" /></div>
           </div>
           <div className="flex justify-end gap-2 mt-4">
