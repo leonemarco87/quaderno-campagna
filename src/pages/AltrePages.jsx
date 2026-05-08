@@ -5,6 +5,7 @@ import PageHeader from '../components/PageHeader'
 import DataTable from '../components/DataTable'
 import Modal from '../components/Modal'
 import { format, differenceInDays } from 'date-fns'
+import ExportBar from '../components/ExportBar'
 
 const PAGAMENTI = ['Bonifico','Contanti','Assegno','Carta di credito','RID','Altro']
 
@@ -53,7 +54,7 @@ export function Spese() {
   return (
     <div className="fade-in space-y-5">
       <PageHeader icon="💸" title="Spese Aziendali" subtitle="Registro di tutte le uscite"
-        actions={<button className="btn-primary" onClick={()=>{setForm(emptySpesa);setModal(true)}}><Plus size={16}/>Nuova spesa</button>}
+        actions={<><ExportBar data={rows} columns={cols} title="Spese Aziendali" filename="spese" /><button className="btn-primary" onClick={()=>{setForm(emptySpesa);setModal(true)}}><Plus size={16}/>Nuova spesa</button></>}
       />
       <div className="card bg-red-50 border-0 text-center">
         <p className="text-xs text-gray-500 uppercase tracking-wide">Totale spese anno</p>
@@ -144,7 +145,7 @@ export function Entrate() {
   return (
     <div className="fade-in space-y-5">
       <PageHeader icon="🌾" title="Entrate e Vendite" subtitle="Registro di tutte le vendite"
-        actions={<button className="btn-primary" onClick={()=>{setForm(emptyEntrata);setModal(true)}}><Plus size={16}/>Nuova vendita</button>}
+        actions={<><ExportBar data={rows} columns={cols} title="Entrate e Vendite" filename="entrate" /><button className="btn-primary" onClick={()=>{setForm(emptyEntrata);setModal(true)}}><Plus size={16}/>Nuova vendita</button></>}
       />
       <div className="grid grid-cols-2 gap-3">
         <div className="card bg-verde-50 border-0 text-center">
@@ -243,7 +244,7 @@ export function Magazzino() {
   return (
     <div className="fade-in space-y-5">
       <PageHeader icon="📦" title="Magazzino Prodotti" subtitle="Gestione scorte con avvisi automatici"
-        actions={<button className="btn-primary" onClick={()=>{setForm(emptyMag);setModal(true)}}><Plus size={16}/>Nuovo prodotto</button>}
+        actions={<><ExportBar data={rows} columns={cols} title="Magazzino Prodotti" filename="magazzino" /><button className="btn-primary" onClick={()=>{setForm(emptyMag);setModal(true)}}><Plus size={16}/>Nuovo prodotto</button></>}
       />
       {alerts.length>0 && (
         <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
@@ -324,7 +325,7 @@ export function Concimazioni() {
   return (
     <div className="fade-in space-y-5">
       <PageHeader icon="🌱" title="Registro Concimazioni" subtitle="Piano di fertilizzazione dell'agrumeto"
-        actions={<button className="btn-primary" onClick={()=>{setForm(emptyConc);setModal(true)}}><Plus size={16}/>Nuova concimazione</button>}
+        actions={<><ExportBar data={rows} columns={cols} title="Registro Concimazioni" filename="concimazioni" /><button className="btn-primary" onClick={()=>{setForm(emptyConc);setModal(true)}}><Plus size={16}/>Nuova concimazione</button></>}
       />
       <div className="grid grid-cols-2 gap-3">
         <div className="card bg-verde-50 border-0 text-center">
@@ -418,7 +419,7 @@ export function Produzione() {
   return (
     <div className="fade-in space-y-5">
       <PageHeader icon="🍋" title="Registro Produzione" subtitle="Monitoraggio rese e qualità del raccolto"
-        actions={<button className="btn-primary" onClick={()=>{setForm(emptyProd);setModal(true)}}><Plus size={16}/>Nuova raccolta</button>}
+        actions={<><ExportBar data={rows} columns={cols} title="Registro Produzione" filename="produzione" /><button className="btn-primary" onClick={()=>{setForm(emptyProd);setModal(true)}}><Plus size={16}/>Nuova raccolta</button></>}
       />
       <div className="grid grid-cols-2 gap-3">
         <div className="card bg-yellow-50 border-0 text-center">
@@ -509,7 +510,7 @@ export function Scadenzario() {
   return (
     <div className="fade-in space-y-5">
       <PageHeader icon="📋" title="Scadenzario" subtitle="Attività programmate e scadenze importanti"
-        actions={<button className="btn-primary" onClick={()=>{setForm(emptySca);setModal(true)}}><Plus size={16}/>Nuova scadenza</button>}
+        actions={<><ExportBar data={rows} columns={cols} title="Scadenzario" filename="scadenzario" /><button className="btn-primary" onClick={()=>{setForm(emptySca);setModal(true)}}><Plus size={16}/>Nuova scadenza</button></>}
       />
       {urgenti.length>0 && (
         <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
