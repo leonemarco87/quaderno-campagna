@@ -8,7 +8,8 @@ import Modal from '../components/Modal'
 import { format } from 'date-fns'
 
 const TIPI = ['Potatura','Irrigazione','Sfalcio erba','Trinciatura','Raccolta',
-              'Sistemazione terreno','Manutenzione attrezzature','Concimazione','Altro']
+              'Sistemazione terreno','Manutenzione attrezzature','Concimazione',
+              'Rippatura','Estirpatore','Fresatura','Aratura','Altro']
 
 const empty = { data:'', appezzamento:'', tipo_lavorazione:'', operatore:'',
                 mezzo:'', ore_lavorate:'', carburante_litri:'', costo:'', note:'' }
