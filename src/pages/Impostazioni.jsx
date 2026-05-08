@@ -20,14 +20,19 @@ function SezioneElenco({ categoria, label }) {
 
   const handleAdd = async () => {
     if (!nuovo.trim()) return
-    // Controlla duplicati
-    if (items.some(i => i.valore.toLowerCase() === nuovo.trim().toLowerCase())) {
-      alert('Voce già presente!')
+    const voci = nuovo.split(/[,\n]/).map(v => v.trim()).filter(v => v.length > 0)
+    const duplicati = voci.filter(v =>
+      items.some(i => i.valore.toLowerCase() === v.toLowerCase())
+    )
+    if (duplicati.length > 0) {
+      alert(`Già presenti: ${duplicati.join(', ')}`)
       return
     }
     setSaving(true)
     try {
-      await addItem(categoria, nuovo)
+      for (const voce of voci) {
+        await addItem(categoria, voce)
+      }
       setNuovo('')
     } finally { setSaving(false) }
   }
@@ -41,7 +46,6 @@ function SezioneElenco({ categoria, label }) {
     <div className="card">
       <h3 className="font-display font-semibold text-verde-700 text-base mb-3">{label}</h3>
 
-      {/* Lista voci */}
       <div className="space-y-1.5 mb-4 max-h-48 overflow-y-auto">
         {items.length === 0 && (
           <p className="text-gray-400 text-sm text-center py-3">Nessuna voce — aggiungine una</p>
@@ -63,22 +67,21 @@ function SezioneElenco({ categoria, label }) {
         ))}
       </div>
 
-      {/* Aggiungi nuova voce */}
-      <div className="flex gap-2">
-        <input
-          className="input flex-1 text-sm"
-          placeholder="Nuova voce..."
+      <div className="flex flex-col gap-2">
+        <textarea
+          className="input text-sm resize-none"
+          placeholder={`Una voce sola oppure più voci separate da virgola\nes: Voce1, Voce2, Voce3`}
+          rows={2}
           value={nuovo}
           onChange={e => setNuovo(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && handleAdd()}
         />
         <button
           onClick={handleAdd}
           disabled={saving || !nuovo.trim()}
-          className="btn-primary px-3 py-2 text-xs disabled:opacity-50"
+          className="btn-primary justify-center disabled:opacity-50"
         >
           <Plus size={14} />
-          {saving ? '...' : 'Aggiungi'}
+          {saving ? 'Aggiunta in corso…' : 'Aggiungi'}
         </button>
       </div>
     </div>
@@ -108,8 +111,8 @@ export default function Impostazioni() {
           <div>
             <p className="text-verde-800 font-medium text-sm">Come funziona</p>
             <p className="text-verde-600 text-xs mt-0.5">
-              Aggiungi o rimuovi voci da qualsiasi elenco — le modifiche si applicano subito
-              a tutti i menu a tendina del gestionale. La voce "Altro" non può essere eliminata.
+              Scrivi una voce sola oppure più voci separate da virgola (es: Boro, Calcio, Magnesio)
+              e clicca Aggiungi. Le voci vengono ordinate alfabeticamente. La voce "Altro" non può essere eliminata.
             </p>
           </div>
         </div>
