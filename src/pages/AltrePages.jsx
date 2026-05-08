@@ -84,7 +84,7 @@ export function Spese() {
               </select></div>
             <div><label className="label">IVA %</label>
               <select className="input" value={form.iva_pct} onChange={e=>set('iva_pct',e.target.value)}>
-                <option value="4">4%</option><option value="10">10%</option><option value="22">22%</option>
+               <option value="0">0%</option><option value="4">4%</option><option value="10">10%</option><option value="22">22%</option>
               </select></div>
             <div><label className="label">Imponibile (€)</label><input className="input" type="number" step="0.01" value={form.imponibile} onChange={e=>set('imponibile',e.target.value)}/></div>
             <div><label className="label">Totale con IVA (€)</label><input className="input" type="number" step="0.01" value={form.totale} onChange={e=>set('totale',e.target.value)}/></div>
